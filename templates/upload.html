@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Notes{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+  <h2>Upload Notes</h2>
+  <p class="auth-subtitle">Share your notes with fellow BIT students</p>
+
+  {% if error %}
+    <div class="alert-error">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" name="title" placeholder="e.g. Chapter 3 - OSI Model" required />
+    </div>
+
+    <div class="form-group">
+      <label>Subject</label>
+      <select name="subject" required>
+        <option value="">-- Select Subject --</option>
+        <option>Computer Networks</option>
+        <option>Database Management</option>
+        <option>Operating Systems</option>
+        <option>Data Structures</option>
+        <option>Web Technology</option>
+        <option>Software Engineering</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Description (optional)</label>
+      <textarea name="description" rows="3" placeholder="What does this note cover?"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>File (PDF or image)</label>
+      <input type="file" name="file" accept=".pdf,.png,.jpg,.jpeg" required />
+    </div>
+
+    <button type="submit" class="btn-submit">Upload Note</button>
+  </form>
+</div>
+{% endblock %}

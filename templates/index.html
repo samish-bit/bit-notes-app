@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="hero">
+  <h1>BIT Notes</h1>
+  <p>Upload and share notes with your classmates.<br>Find resources for every subject.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-number">{{ total_notes }}</span>
+      <span class="stat-label">Notes Uploaded</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number">{{ total_users }}</span>
+      <span class="stat-label">Students Joined</span>
+    </div>
+  </div>
+  <div class="hero-buttons">
+    <a href="/browse" class="btn-primary">Browse Notes</a>
+    {% if current_user.is_authenticated %}
+      <a href="/upload" class="btn-secondary">Upload Notes</a>
+    {% else %}
+      <a href="/register" class="btn-secondary">Join Now</a>
+    {% endif %}
+  </div>
+</div>
+
+{% if recent_notes %}
+<section class="recent-section">
+  <h2>Recently Uploaded</h2>
+  <div class="notes-grid">
+    {% for note in recent_notes %}
+      <div class="note-card">
+        <div class="note-subject">{{ note.subject }}</div>
+        <h3 class="note-title">{{ note.title }}</h3>
+        <p class="note-desc">{{ note.description or 'No description provided.' }}</p>
+        <div class="note-footer">
+  <span class="note-uploader">by {{ note.uploader.username }}</span>
+  <div style="display:flex; gap:0.5rem;">
+    <a href="/download/{{ note.id }}" class="btn-download">Download</a>
+    {% if current_user.is_authenticated and current_user.id == note.user_id %}
+      <form method="POST" action="/delete/{{ note.id }}"
+            onsubmit="return confirm('Delete this note?')">
+        <button type="submit" class="btn-delete">Delete</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Notes{% endblock %}
+
+{% block content %}
+<div class="browse-container">
+  <div class="browse-header">
+    <div>
+      <h2>Browse Notes</h2>
+      <p class="auth-subtitle">{{ notes|length }} note(s) found</p>
+    </div>
+    {% if current_user.is_authenticated %}
+      <a href="/upload" class="btn-primary">+ Upload Note</a>
+    {% endif %}
+  </div>
+
+  <!-- Subject filter bar -->
+  <div class="filter-bar">
+    <a href="/browse" class="filter-btn {% if not selected %}active{% endif %}">All</a>
+    {% for subject in subjects %}
+      <a href="/browse?subject={{ subject }}"
+         class="filter-btn {% if selected == subject %}active{% endif %}">
+        {{ subject }}
+      </a>
+    {% endfor %}
+  </div>
+
+  {% if notes %}
+    <div class="notes-grid">
+      {% for note in notes %}
+        <div class="note-card">
+          <div class="note-subject">{{ note.subject }}</div>
+          <h3 class="note-title">{{ note.title }}</h3>
+          <p class="note-desc">{{ note.description or 'No description provided.' }}</p>
+            <div class="note-footer">
+            <span class="note-uploader">by {{ note.uploader.username }}</span>
+            <div style="display:flex; gap:0.5rem;">
+            <a href="/download/{{ note.id }}" class="btn-download">Download</a>
+            {% if current_user.is_authenticated and current_user.id == note.user_id %}
+            <form method="POST" action="/delete/{{ note.id }}"
+            onsubmit="return confirm('Delete this note?')">
+        <button type="submit" class="btn-delete">Delete</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>No notes found for this subject.</p>
+      <a href="/browse" class="btn-primary">View all notes</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
