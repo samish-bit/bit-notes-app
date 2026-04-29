@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 
 # --- Config ---
-app.config['SECRET_KEY'] = 'bitnotes-secret-key'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'bitnotes-secret-key')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notes.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -168,4 +168,4 @@ def delete(note_id):
     return redirect(url_for('browse'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
