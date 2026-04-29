@@ -1,5 +1,6 @@
 venv/
 *.db
 __pycache__/
-static/uploads/
+static/uploads/*
+!static/uploads/.gitkeep
 .env
