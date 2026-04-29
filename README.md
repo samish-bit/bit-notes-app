@@ -1,3 +1,5 @@
+🔗 Live demo: https://bit-notes-app.onrender.com
+
 # BIT Notes
 
 A web app for BIT students to upload and share study notes.
