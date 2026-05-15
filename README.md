@@ -24,9 +24,4 @@ A web app for BIT students to upload and share study notes.
 6. Open: http://127.0.0.1:5000
 
 
-git init
-git add .
-git commit -m "initial commit - BIT notes app with upload, browse, delete"
-git branch -M main
-git remote add origin https://github.com/samish-bit/bit-notes-app.git
-git push -u origin main
+
